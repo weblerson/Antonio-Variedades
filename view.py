@@ -44,13 +44,13 @@ class Interface:
             elif choice == 2:
                 Interface.product()
             elif choice == 3:
-                pass
+                Interface.provider()
             elif choice == 4:
-                pass
+                Interface.customer()
             elif choice == 5:
-                pass
+                Interface.employee()
             elif choice == 6:
-                pass
+                Interface.sales()
 
     @classmethod
     def cashier(cls):
@@ -643,13 +643,273 @@ class Interface:
 
                     break
 
-
     @classmethod
     def provider(cls):
         Interface.clear()
 
         while True:
-            pass
+            options = [0, 1, 2, 3, 4]
+
+            print("Terminal de ações de Fornecedores. Selecione a opção que deseja executar.")
+            print("Digite 0 para sair a qualquer momento!")
+
+            print('''
+            Digite 1 para fazer a leitura dos fornecedores.
+            Digite 2 para fazer o cadastro de um fornecedor.
+            Digite 3 para fazer a alteração de um fornecedor.
+            Digite 4 para excluir um fornecedor.''')
+
+            Interface.linebreak()
+
+            try:
+                choice = int(input("Escolha: "))
+            except:
+                Interface.clear()
+                print("Digite um comando numérico.")
+
+                Interface.linebreak()
+
+                continue
+
+            if choice not in options:
+                Interface.clear()
+                print("Digite um comando válido.")
+
+                Interface.linebreak()
+
+                continue
+
+            if choice == 0:
+                break
+
+            elif choice == 1:
+                Interface.clear()
+
+                provider_list, provider_info_list = ProviderController.read()
+
+                index = 0
+                for provider in provider_list:
+                    print(f"{provider}:")
+                    print(f"Categoria: {provider_info_list[index]['categoria']}")
+                    print(f"Mensalidade: R$ {provider_info_list[index]['mensalidade']}")
+
+                    Interface.linebreak()
+
+                    index += 1
+
+                Interface.linebreak()
+
+                input("Digite qualquer tecla para sair.")
+
+                Interface.clear()
+
+            elif choice == 2:
+                while True:
+                    Interface.clear()
+
+                    print("Digite 0 a qualquer momento para sair!")
+                    Interface.linebreak()
+
+                    company = input("Digite o nome do fornecedor/empresa: ")
+                    if company == '0':
+                        Interface.clear()
+                        break
+
+                    try:
+                        mensality = float(input("Digite a mensalidade que vai ser paga ao fornecedor: "))
+                    except:
+                        Interface.linebreak()
+                        print("Digite um valor numérico!")
+
+                        again = Interface.again()
+
+                        if again:
+                            continue
+
+                        else:
+                            Interface.clear()
+
+                            break
+
+                    if mensality == 0:
+                        Interface.clear()
+                        break
+
+                    category = input("Digite a categoria dos produtos que o fornecedor vai prover: ")
+                    if category == '0':
+                        Interface.clear()
+                        break
+
+                    Interface.linebreak()
+
+
+                    if ProviderController.register(company, mensality, category) == True:
+                        print("Fornecedor cadastrado com sucesso!")
+
+                    elif ProviderController.register(company, mensality, category) == False:
+                        print("Ocorreu um erro. Tente novamente.")
+
+                    else:
+                        print(ProviderController.register(company, mensality, category))
+
+                        again = Interface.again()
+
+                        if again:
+                            continue
+
+                        else:
+                            pass
+
+                    Interface.linebreak()
+
+                    print("Para realizar um cadastro novamente, digite 'S'. Senão, digite qualquer tecla para sair.")
+                    choice = input("Escolha: ").upper()
+
+                    if choice == 'S':
+                        continue
+
+                    Interface.clear()
+
+                    break
+
+            elif choice == 3:
+                while True:
+                    options = ["S", "N"]
+                    Interface.clear()
+
+                    print("Digite 0 a qualquer momento para sair!")
+                    Interface.linebreak()
+
+                    new = input("O fornecedor mudou de nome ou quer mudar de fornecedor? (S/N): ").upper()
+
+                    if new not in options:
+                        Interface.clear()
+                        print("Digite um comando válido!")
+
+                        stop = input("Digite qualquer tecla para continuar")
+
+                        continue
+
+
+                    company = input("Digite o nome do fornecedor que deseja alterar: ")
+                    if company == '0':
+                        Interface.clear()
+                        break
+
+                    if new == 'S':
+                        new_company = input("Digite o nome do novo fornecedor: ")
+                        if new_company == '0':
+                            Interface.clear()
+                            break
+
+                    elif new == 'N':
+                        new_company = company
+
+                    category = input("Digite o nome da nova categoria: ")
+                    if category == '0':
+                        Interface.clear()
+                        break
+
+                    try:
+                        mensality = float(input("Digite o novo valor da mensalidade: "))
+                    except:
+                        Interface.linebreak()
+                        print("Digite um valor numérico!")
+
+                        again = Interface.again()
+
+                        if again:
+                            continue
+
+                        else:
+                            break
+
+                    if mensality == 0:
+                        Interface.clear()
+                        break
+                    
+                    Interface.linebreak()
+
+
+                    if ProviderController.change(company, mensality, category, new_company) == True:
+                        print("Fornecedor alterado com sucesso!")
+
+                    elif ProviderController.change(company, mensality, category, new_company) == False:
+                        print("Ocorreu um erro. Tente novamente.")
+
+                    else:
+                        print(ProviderController.change(company, mensality, category, new_company))
+                        Interface.linebreak()
+
+                        again = Interface.again()
+
+                        if again:
+                            continue
+
+                        else:
+                            pass
+
+
+                    print("Para alterar mais um fornecedor, digite 'S'. Senão, digite qualquer tecla para sair.")
+                    choice = input("Escolha: ").upper()
+
+                    if choice == 'S':
+                        continue
+
+                    Interface.clear()
+
+                    break
+
+            elif choice == 4:
+                while True:
+                    Interface.clear()
+                    
+                    print("Digite 0 para sair a qualquer momento!")
+                    Interface.linebreak()
+
+                    company = input("Digite o nome do fornecedor que deseja remover: ")
+                    if company == '0':
+                        Interface.clear()
+                        break
+
+                    Interface.linebreak()
+
+
+                    if ProviderController.remove(company) == True:
+                        print("O fornecedor foi removido com sucesso!")
+                        
+                    elif ProviderController.remove(company) == False:
+                        print("Ocorreu um erro. Tente novamente.")
+
+                    else:
+                        print(ProviderController.remove(company))
+                        Interface.linebreak()
+
+                        again = Interface.again()
+
+                        if again:
+                            continue
+
+                        else:
+                            pass
+
+                    print("Para remover mais um fornecedor, digite S. Senão, digite qualquer tecla para sair.")
+                    choice = input("Escolha: ").upper()
+
+                    if choice == 'S':
+                        continue
+
+                    Interface.clear()
+                    
+                    break
+
+    @classmethod
+    def customer(cls):
+        pass
+
+    @classmethod
+    def employee(cls):
+        pass
 
     @classmethod
     def again(cls):

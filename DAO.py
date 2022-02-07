@@ -100,9 +100,23 @@ class ProviderDAO:
             return providers_list
 
     @classmethod
-    def register_or_change(cls, provider: Provider):
+    def register(cls, provider: Provider):
         providers_list = ProviderDAO.read_archive()
         providers_list.update({f"{provider.company}": {
+            "categoria": f"{provider.category}",
+            "mensalidade": provider.mensality}})
+
+        new_providers_list = json.dumps(providers_list, ensure_ascii = False)
+
+        with open(PROVIDERS, 'w') as providers:
+            providers.write(new_providers_list)
+
+    @classmethod
+    def change(cls, provider: Provider, new_company):
+        providers_list = ProviderDAO.read_archive()
+        providers_list[new_company] = providers_list.pop(provider.company)
+        
+        providers_list.update({f"{new_company}": {
             "categoria": f"{provider.category}",
             "mensalidade": provider.mensality}})
 

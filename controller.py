@@ -152,12 +152,16 @@ class ProviderController:
     @classmethod
     def register(cls, company, mensality, category):
         provider_list, provider_info_list = ProviderController.read()
+        category_list = CategoryController.read()
 
         if company in provider_list:
             return f"O fornecedor {company} já existe. Não é possível cadastrar."
 
+        if category not in category_list:
+            return f"A categoria {category} não existe. Não é possível cadastrar o fornecedor."
+
         try:
-            ProviderDAO.register_or_change(Provider(company, mensality, category))
+            ProviderDAO.register(Provider(company, mensality, category))
 
             return True
 
@@ -165,14 +169,18 @@ class ProviderController:
             return False
 
     @classmethod
-    def change(cls, company, mensality, category):
+    def change(cls, company, mensality, category, new_company):
         provider_list, provider_info_list = ProviderController.read()
+        category_list = CategoryController.read()
 
         if company not in provider_list:
-            return f"O fornecedor {company} não existe. Impossível alterar."
+            return f"O fornecedor {company} não existe. Impossível alterar o fornecedor."
+
+        if category not in category_list:
+            return f"A categoria {category} não existe. Impossível fazer a alteração do fornecedor."
 
         try:
-            ProviderDAO.register_or_change(Provider(company, mensality, category))
+            ProviderDAO.change(Provider(company, mensality, category), new_company)
 
             return True
 
@@ -187,7 +195,7 @@ class ProviderController:
             return f"O provedor {company} não existe. Impossível remover."
 
         try:
-            ProviderDAO.remove(Product(company, None, None))
+            ProviderDAO.remove(Provider(company, None, None))
 
             return True
 
