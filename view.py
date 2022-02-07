@@ -905,11 +905,342 @@ class Interface:
 
     @classmethod
     def customer(cls):
-        pass
+        Interface.clear()
+
+        while True:
+            options = [0, 1, 2, 3, 4]
+
+            print("Terminal de ações de Clientes. Selecione a opção que deseja executar.")
+            print("Digite 0 para sair a qualquer momento!")
+
+            print('''
+            Digite 1 para fazer a leitura dos clientes.
+            Digite 2 para fazer o cadastro de um cliente.
+            Digite 3 para fazer a alteração do nickname de um cliente.
+            Digite 4 para excluir um cliente.''')
+
+            Interface.linebreak()
+
+            try:
+                choice = int(input("Escolha: "))
+            except:
+                Interface.clear()
+                print("Digite um comando numérico.")
+
+                Interface.linebreak()
+
+                continue
+
+            if choice not in options:
+                Interface.clear()
+                print("Digite um comando válido.")
+
+                Interface.linebreak()
+
+                continue
+
+            if choice == 0:
+                break
+
+            elif choice == 1:
+                Interface.clear()
+
+                customer_list, customer_info_list = CustomerController.read()
+
+                print("Digite 'F' para exibir a informação de um cliente por nickname. Senão, digite qualquer tecla para mostrar todos.")
+                choice = input("Escolha: ").upper()
+
+                Interface.clear()
+
+                if choice == 'F':
+                    nickname = input("Digite o nickname do cliente: ")
+                    Interface.linebreak()
+
+                    if nickname not in customer_list:
+                        print("Não existe nenhum cliente com esse nickname. Não é possível exibir informações.")
+                        Interface.linebreak()
+                    
+                    else:
+                        index = customer_list.index(nickname)
+
+                        print(f"{nickname}:")
+                        print(f"Nome completo: {customer_info_list[index]['nome']}")
+                        print(f"Sexo: {customer_info_list[index]['sexo']}")
+                        print(f"CPF: {customer_info_list[index]['cpf']}")
+                        print(f"Endereço: {customer_info_list[index]['endereço']}")
+                        
+                        Interface.linebreak()
+
+
+
+                else:
+                    index = 0
+                    for customer in customer_list:
+                        print(f"{customer}:")
+                        print(f"Nome completo: {customer_info_list[index]['nome']}")
+                        print(f"Sexo: {customer_info_list[index]['sexo']}")
+                        print(f"CPF: {customer_info_list[index]['cpf']}")
+                        print(f"Endereço: {customer_info_list[index]['endereço']}")
+                        
+                        Interface.linebreak()
+
+                        index += 1
+
+                input("Digite qualquer tecla para sair.")
+
+                Interface.clear()
+
+            elif choice == 2:
+                while True:
+                    Interface.clear()
+
+                    print("Digite 0 para sair a qualquer momento!")
+                    Interface.linebreak()
+
+                    nickname = input("Digite o nickname do cliente: ")
+                    if nickname == '0':
+                        Interface.clear()
+                        break
+
+                    name = input("Digite o nome completo do cliente: ")
+                    if name == '0':
+                        Interface.clear()
+                        break
+
+                    cpf = input("Digite o CPF do cliente: ")
+                    if cpf == '0':
+                        Interface.clear()
+                        break
+
+                    address = input("Digite o endereço completo do cliente (Rua, Bairro): ")
+                    if address == '0':
+                        Interface.clear()
+                        break
+                    
+                    sex = input("Digite o sexo do cliente: ")
+                    if sex == '0':
+                        Interface.clear()
+                        break
+
+                    Interface.linebreak()
+
+
+                    if CustomerController.register(nickname, name, cpf, address, sex) == True:
+                        print("Cliente cadastrado com sucesso!")
+
+                    elif CustomerController.register(nickname, name, cpf, address, sex) == False:
+                        print("Ocorreu um erro. Tente novamente.")
+
+                    else:
+                        print(CustomerController.register(nickname, name, cpf, address, sex))
+                        Interface.linebreak()
+
+                        again = Interface.again()
+
+                        if again:
+                            continue
+
+                        else:
+                            pass
+
+                    print("Digite S para cadastrar mais um cliente. Senão, digite qualquer tecla para sair.")
+                    choice = input("Escolha: ").upper()
+
+                    if choice == 'S':
+                        continue
+
+                    Interface.clear()
+
+                    break
+
+            elif choice == 3:
+                while True:
+                    Interface.clear()
+
+                    print("Digite 0 para sair a qualquer momento!")
+                    Interface.linebreak()
+
+                    nickname = input("Digite o nickname antigo do cliente: ")
+                    if nickname == '0':
+                        Interface.clear()
+                        break
+
+                    new_nickname = input("Digite o novo nickname do cliente: ")
+                    if new_nickname == '0':
+                        Interface.clear()
+                        break
+
+                    Interface.linebreak()
+
+
+                    if CustomerController.change(nickname, new_nickname) == True:
+                        print("O nickname do cliente foi alterado com sucesso!")
+                    
+                    elif CustomerController.change(nickname, new_nickname) == False:
+                        print("Ocorreu um erro. Tente novamente.")
+
+                    else:
+                        print(CustomerController.change(nickname, new_nickname))
+                        Interface.linebreak()
+
+                        again = Interface.again()
+                        
+                        if again:
+                            continue
+
+                        else:
+                            pass
+
+                    print("Para alterar o nickname de outro cliente, digite S. Senão, digite qualquer tecla para sair.")
+                    choice = input("Escolha: ").upper()
+
+                    if choice == 'S':
+                        continue
+
+                    Interface.clear()
+
+                    break
+
+            elif choice == 4:
+                while True:
+                    Interface.clear()
+
+                    print("Digite 0 para sair a qualquer momento!")
+                    Interface.linebreak()
+
+                    nickname = input("Digite o nickname do cliente que deseja remover: ")
+                    if nickname == '0':
+                        Interface.clear()
+                        break
+
+                    Interface.linebreak()
+
+
+                    if CustomerController.remove(nickname) == True:
+                        print("O cliente foi removido com sucesso!")
+
+                    elif CustomerController.remove(nickname) == False:
+                        print("Ocorreu um erro. Tente novamente.")
+
+                    else:
+                        print(CustomerController.remove(nickname))
+                        Interface.linebreak()
+
+                        again = Interface.again()
+
+                        if again:
+                            continue
+
+                        else:
+                            pass
+
+                    print("Para remover mais um cliente, digite S. Senão, digite qualquer tecla para sair.")
+                    choice = input("Escolha: ").upper()
+
+                    if choice == 'S':
+                        continue
+
+                    Interface.clear()
+
+                    break
 
     @classmethod
     def employee(cls):
-        pass
+        Interface.clear()
+
+        while True:
+            options = [0, 1, 2, 3, 4]
+
+            print("Terminal de ações de Funcionários. Selecione a opção que deseja executar.")
+            print("Digite 0 para sair a qualquer momento!")
+
+            print('''
+            Digite 1 para fazer a leitura dos funcionários.
+            Digite 2 para fazer o cadastro de um funcionários.
+            Digite 3 para fazer a alteração do nickname de um funcionário.
+            Digite 4 para excluir um funcionário.''')
+
+            Interface.linebreak()
+
+            try:
+                choice = int(input("Escolha: "))
+            except:
+                Interface.clear()
+                print("Digite um comando numérico.")
+
+                Interface.linebreak()
+
+                continue
+
+            if choice not in options:
+                Interface.clear()
+                print("Digite um comando válido.")
+
+                Interface.linebreak()
+
+                continue
+
+            if choice == 0:
+                break
+
+            elif choice == 1:
+                Interface.clear()
+                employee_list, employee_info_list = EmployeeController.read()
+
+                print("Digite F para exibir as informações de um funcionário. Senão, digite qualquer tecla para mostrar todos.")
+                choice = input("Escolha: ").upper()
+
+                Interface.linebreak()
+
+                if choice == 'F':
+                    Interface.clear()
+                    nickname = input("Digite o nickname do funcionário: ")
+
+                    Interface.linebreak()
+
+                    if nickname not in employee_list:
+                        print("Não existe nenhum funcionário com esse nickname. Impossível exibir as informações.")
+
+                    else:
+                        index = employee_list.index(nickname)
+
+                        print(f"{nickname}:")
+                        print(f"Nome Completo: {employee_info_list[index]['nome']}")
+                        print(f"Sexo: {employee_info_list[index]['sexo']}")
+                        print(f"CPF: {employee_info_list[index]['cpf']}")
+                        print(f"Endereço: {employee_info_list[index]['endereço']}")
+                        print(f"Data de Nascimento: {employee_info_list[index]['data de nascimento']}")
+                        print(f"Estado Civil: {employee_info_list[index]['estado civil']}")
+
+                else:
+                    Interface.clear()
+
+                    index = 0
+                    for employee in employee_list:
+                        print(f"{employee}:")
+                        print(f"Nome Completo: {employee_info_list[index]['nome']}")
+                        print(f"Sexo: {employee_info_list[index]['sexo']}")
+                        print(f"CPF: {employee_info_list[index]['cpf']}")
+                        print(f"Endereço: {employee_info_list[index]['endereço']}")
+                        print(f"Data de Nascimento: {employee_info_list[index]['data de nascimento']}")
+                        print(f"Estado Civil: {employee_info_list[index]['estado civil']}")
+
+                        Interface.linebreak()
+                        index += 1
+
+
+                input("Digite qualquer tecla para sair.")
+
+                Interface.clear()
+
+            elif choice == 2:
+                pass
+
+            elif choice == 3:
+                pass
+
+            elif choice ==  4:
+                pass
 
     @classmethod
     def again(cls):

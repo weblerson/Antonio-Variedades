@@ -147,7 +147,7 @@ class CustomerDAO:
     def register(cls, customer: Customer):
         customers_list = CustomerDAO.read_archive()
         customers_list.update({f"{customer.nickname}": {
-            "name": f"{customer.name}",
+            "nome": f"{customer.name}",
             "sexo": f"{customer.sex}",
             "cpf": f"{customer.cpf}",
             "endereço": f"{customer.address}"
