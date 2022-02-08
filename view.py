@@ -301,29 +301,19 @@ class Interface:
                     new_category = input("Digite o nome da nova categoria: ")
                     if new_category == '0':
                         Interface.clear()
-
                         break
 
-                    if CategoryController.register(new_category) == True:
-                        print("Categoria cadastrada com sucesso!")
-                        Interface.linebreak()
-                    
-                    elif CategoryController.register(new_category) == False:
-                        print("Ocorreu um erro. Tente novamente.")
-                        Interface.linebreak()
+                    Interface.linebreak()
+
+
+                    success = "Categoria cadastrada com sucesso!"
+                    again = Interface.test(CategoryController.register(new_category), success)
+
+                    if again:
+                        continue
 
                     else:
-                        print(CategoryController.register(new_category))
-                        Interface.linebreak()
-
-                        again = Interface.again()
-
-                        if again:
-                            continue
-
-                        elif not again:
-                            pass
-
+                        pass
 
                     print("Para cadastrar mais uma, digite 'S', senão, digite qualquer tecla para sair.")
                     choice = input("Escolha: ").upper()
@@ -345,35 +335,24 @@ class Interface:
                     old_category = input("Digite o nome da categoria que deseja alterar: ")
                     if old_category == '0':
                         Interface.clear()
-
                         break
 
                     new_category = input(f"Digite um novo nome para a categoria {old_category}: ")
                     if new_category == '0':
                         Interface.clear()
-
                         break
 
-                    if CategoryController.change(old_category, new_category) == True:
-                        print("Categoria alterada com sucesso!")
-                        Interface.linebreak()
+                    Interface.linebreak()
 
-                    elif CategoryController.change(old_category, new_category) == False:
-                        print("Ocorreu um erro. Tente novamente.")
-                        Interface.linebreak()
+
+                    success = "Categoria alterada com sucesso!"
+                    again = Interface.test(CategoryController.change(old_category, new_category), success)
+
+                    if again:
+                        continue
 
                     else:
-                        print(CategoryController.change(old_category, new_category))
-                        Interface.linebreak()
-
-                        again = Interface.again()
-
-                        if again:
-                            continue
-
-                        elif not again:
-                            pass
-                    
+                        pass
 
                     print("Para alterar mais uma, digite 'A', senão, digite qualquer tecla para sair.")
                     choice = input("Escolha: ").upper()
@@ -393,36 +372,27 @@ class Interface:
                     Interface.linebreak()
 
                     category = input("Digite o nome da categoria que deseja excluir: ")
-
                     if category == '0':
+                        Interface.clear()
                         break
 
-                    if CategoryController.remove(category) == True:
-                        print("Categoria excluída com sucesso!")
-                        Interface.linebreak()
+                    Interface.linebreak()
                     
-                    elif CategoryController.remove(category) == False:
-                        print("Ocorreu um erro. Tente novamente.")
-                        Interface.linebreak()
+
+                    success = "Categoria excluída com sucesso!"
+                    again = Interface.test(CategoryController.remove(category), success)
+
+                    if again:
+                        continue
 
                     else:
-                        print(CategoryController.remove(category))
-                        Interface.linebreak()
-
-                        again = Interface.again()
-
-                        if again:
-                            continue
-
-                        elif not again:
-                            pass
-
+                        pass
                     
-                    print("Para excluir mais uma, digite 'E', senão, digite qualquer tecla para sair.")
+                    print("Para excluir mais uma, digite 'S', senão, digite qualquer tecla para sair.")
 
                     choice = input("Escolha: ").upper()
 
-                    if choice == 'E':
+                    if choice == 'S':
                         continue
 
                     Interface.clear()
@@ -511,24 +481,16 @@ class Interface:
                         break
 
                     Interface.linebreak()
+                    
 
-                    if ProductController.register(category, name, price) == True:
-                        print("Produto cadastrado com sucesso!")
+                    success = "Produto cadastrado com sucesso!"
+                    again = Interface.test(ProductController.register(category, name, price), success)
 
-                    elif ProductController.register(category, name, price) == False:
-                        print("Ocorreu um erro. Tente novamente.")
+                    if again:
+                        continue
 
                     else:
-                        print(ProductController.register(category, name, price))
-                        Interface.linebreak()
-
-                        again = Interface.again()
-
-                        if again:
-                            continue
-
-                        else:
-                            pass
+                        pass
 
                     choice = input("Digite S para cadastrar outro produto, senão, digite qualquer tecla para sair.").upper()
                     
@@ -568,23 +530,15 @@ class Interface:
 
                     Interface.linebreak()
 
-                    if ProductController.change(category, name, price, new_product) == True:
-                        print("Produto alterado com sucesso!")
 
-                    elif ProductController.change(category, name, price, new_product) == False:
-                        print("Ocorreu um erro. Tente novamente.")
+                    success = "Produto alterado com sucesso!"
+                    again = Interface.test(ProductController.change(category, name, price, new_product), success)
+
+                    if again:
+                        continue
 
                     else:
-                        print(ProductController.change(category, name, price, new_product))
-                        Interface.linebreak()
-
-                        again = Interface.again()
-
-                        if again:
-                            continue
-
-                        else:
-                            pass
+                        pass
                     
                     choice = input("Digite S para alterar outro produto. Senão, digite qualquer tecla para sair.").upper()
 
@@ -617,23 +571,15 @@ class Interface:
 
                     Interface.linebreak()
 
-                    if ProductController.remove(category, name) == True:
-                        print("Produto removido com sucesso!")
 
-                    elif ProductController.remove(category, name) == False:
-                        print("Ocorreu um erro. Tente novamente.")
+                    success = "Produto removido com sucesso!"
+                    again = Interface.test(ProductController.remove(category, name), success)
+
+                    if again:
+                        continue
 
                     else:
-                        print(ProductController.remove(category, name))
-                        Interface.linebreak()
-
-                        again = Interface.again()
-
-                        if again:
-                            continue
-
-                        else:
-                            pass
+                        pass
 
                     choice = input("Digite S para remover outro produto. Senão, digite qualquer tecla para sair.").upper()
                     if choice == 'S':
@@ -743,22 +689,14 @@ class Interface:
                     Interface.linebreak()
 
 
-                    if ProviderController.register(company, mensality, category) == True:
-                        print("Fornecedor cadastrado com sucesso!")
+                    success = "Fornecedor cadastrado com sucesso!"
+                    again = Interface.test(ProviderController.register(company, mensality, category), success)
 
-                    elif ProviderController.register(company, mensality, category) == False:
-                        print("Ocorreu um erro. Tente novamente.")
+                    if again:
+                        continue
 
                     else:
-                        print(ProviderController.register(company, mensality, category))
-
-                        again = Interface.again()
-
-                        if again:
-                            continue
-
-                        else:
-                            pass
+                        pass
 
                     Interface.linebreak()
 
@@ -831,24 +769,14 @@ class Interface:
                     Interface.linebreak()
 
 
-                    if ProviderController.change(company, mensality, category, new_company) == True:
-                        print("Fornecedor alterado com sucesso!")
+                    success = "Fornecedor alterado com sucesso!"
+                    again = Interface.test(ProviderController.change(company, mensality, category, new_company), success)
 
-                    elif ProviderController.change(company, mensality, category, new_company) == False:
-                        print("Ocorreu um erro. Tente novamente.")
+                    if again:
+                        continue
 
                     else:
-                        print(ProviderController.change(company, mensality, category, new_company))
-                        Interface.linebreak()
-
-                        again = Interface.again()
-
-                        if again:
-                            continue
-
-                        else:
-                            pass
-
+                        pass
 
                     print("Para alterar mais um fornecedor, digite 'S'. Senão, digite qualquer tecla para sair.")
                     choice = input("Escolha: ").upper()
@@ -875,23 +803,14 @@ class Interface:
                     Interface.linebreak()
 
 
-                    if ProviderController.remove(company) == True:
-                        print("O fornecedor foi removido com sucesso!")
-                        
-                    elif ProviderController.remove(company) == False:
-                        print("Ocorreu um erro. Tente novamente.")
+                    success = "O fornecedor foi removido com sucesso!"
+                    again = Interface.test(ProviderController.remove(company), success)
+
+                    if again:
+                        continue
 
                     else:
-                        print(ProviderController.remove(company))
-                        Interface.linebreak()
-
-                        again = Interface.again()
-
-                        if again:
-                            continue
-
-                        else:
-                            pass
+                        pass
 
                     print("Para remover mais um fornecedor, digite S. Senão, digite qualquer tecla para sair.")
                     choice = input("Escolha: ").upper()
@@ -1025,23 +944,14 @@ class Interface:
                     Interface.linebreak()
 
 
-                    if CustomerController.register(nickname, name, cpf, address, sex) == True:
-                        print("Cliente cadastrado com sucesso!")
+                    success = "Cliente cadastrado com sucesso!"
+                    again = Interface.test(CustomerController.register(nickname, name, cpf, address, sex), success)
 
-                    elif CustomerController.register(nickname, name, cpf, address, sex) == False:
-                        print("Ocorreu um erro. Tente novamente.")
+                    if again:
+                        continue
 
                     else:
-                        print(CustomerController.register(nickname, name, cpf, address, sex))
-                        Interface.linebreak()
-
-                        again = Interface.again()
-
-                        if again:
-                            continue
-
-                        else:
-                            pass
+                        pass
 
                     print("Digite S para cadastrar mais um cliente. Senão, digite qualquer tecla para sair.")
                     choice = input("Escolha: ").upper()
@@ -1073,23 +983,14 @@ class Interface:
                     Interface.linebreak()
 
 
-                    if CustomerController.change(nickname, new_nickname) == True:
-                        print("O nickname do cliente foi alterado com sucesso!")
-                    
-                    elif CustomerController.change(nickname, new_nickname) == False:
-                        print("Ocorreu um erro. Tente novamente.")
+                    success = "O nickname do cliente foi alterado com sucesso!"
+                    again = Interface.test(CustomerController.change(nickname, new_nickname), success)
+
+                    if again:
+                        continue
 
                     else:
-                        print(CustomerController.change(nickname, new_nickname))
-                        Interface.linebreak()
-
-                        again = Interface.again()
-                        
-                        if again:
-                            continue
-
-                        else:
-                            pass
+                        pass
 
                     print("Para alterar o nickname de outro cliente, digite S. Senão, digite qualquer tecla para sair.")
                     choice = input("Escolha: ").upper()
@@ -1115,24 +1016,15 @@ class Interface:
 
                     Interface.linebreak()
 
-
-                    if CustomerController.remove(nickname) == True:
-                        print("O cliente foi removido com sucesso!")
-
-                    elif CustomerController.remove(nickname) == False:
-                        print("Ocorreu um erro. Tente novamente.")
+                    
+                    success = "O cliente foi removido com sucesso!"
+                    again = Interface.test(CustomerController.remove(nickname), success)
+                    
+                    if again:
+                        continue
 
                     else:
-                        print(CustomerController.remove(nickname))
-                        Interface.linebreak()
-
-                        again = Interface.again()
-
-                        if again:
-                            continue
-
-                        else:
-                            pass
+                        pass
 
                     print("Para remover mais um cliente, digite S. Senão, digite qualquer tecla para sair.")
                     choice = input("Escolha: ").upper()
@@ -1234,13 +1126,144 @@ class Interface:
                 Interface.clear()
 
             elif choice == 2:
-                pass
+                while True:
+                    Interface.clear()
+
+                    print("Digite 0 a qualquer momento para sair!")
+                    Interface.linebreak()
+
+                    nickname = input("Digite o nickname do funcionário: ")
+                    if nickname == '0':
+                        Interface.clear()
+                        break
+
+                    birthdate = input("Digite a data de nascimento do funcionário: ")
+                    if birthdate == '0':
+                        Interface.clear()
+                        break
+
+                    marital_state = input("Digite o estado civil do funcionário: ")
+                    if marital_state == '0':
+                        Interface.clear()
+                        break
+
+                    name = input("Digite o nome completo do funcionário: ")
+                    if name == '0':
+                        Interface.clear()
+                        break
+
+                    cpf = input("Digite o CPF do funcionário: ")
+                    if cpf == '0':
+                        Interface.clear()
+                        break
+
+                    address = input("Digite o endereço completo do funcionário (Rua, Bairro): ")
+                    if address == '0':
+                        Interface.clear()
+                        break
+
+                    sex =  input("Digite o sexo do funcionário: ")
+                    if sex == '0':
+                        Interface.clear()
+                        break
+
+                    Interface.linebreak()
+
+
+                    success = "Funcionário cadastrado com sucesso!"
+                    again = Interface.test(EmployeeController.register(nickname, birthdate, marital_state, name, cpf, address, sex), success)
+
+                    if again:
+                        continue
+
+                    else:
+                        pass
+
+                    print("Para cadastrar mais um funcionário, digite S. Senão, digite qualquer tecla para sair.")
+                    choice = input("Escolha: ").upper()
+
+                    if choice == 'S':
+                        continue
+
+                    Interface.clear()
+
+                    break
 
             elif choice == 3:
-                pass
+                while True:
+                    Interface.clear()
+
+                    print("Digite 0 para sair a qualquer momento!")
+                    Interface.linebreak()
+
+                    nickname = input("Digite o nickname do funcionário que deseja alterar: ")
+                    if nickname == '0':
+                        Interface.clear()
+                        break
+
+                    new_nickname = input("Digite o novo nickname do funcionário: ")
+                    if new_nickname == '0':
+                        Interface.clear()
+                        break
+
+                    Interface.linebreak()
+
+
+                    success = "Nickname do funcionário alterado com sucesso!"
+                    again = Interface.test(EmployeeController.change(nickname, new_nickname), success)
+
+                    if again:
+                        continue
+
+                    else:
+                        pass
+
+                    print("Para alterar o nickname de mais um funcionário, digite S. Senão, digite qualquer tecla para sair.")
+                    choice = input("Escolha: ").upper()
+
+                    if choice == 'S':
+                        continue
+
+                    Interface.clear()
+
+                    break
 
             elif choice ==  4:
-                pass
+                while True:
+                    Interface.clear()
+
+                    print("Digite 0 para sair a qualquer momento!")
+                    Interface.linebreak()
+
+                    nickname = input("Digite o nickname do funcionário que deseja remover: ")
+                    if nickname == '0':
+                        Interface.clear()
+                        break
+
+                    Interface.linebreak()
+
+                    success = "Funcionário removido com sucesso!"
+                    again = Interface.test(EmployeeController.remove(nickname), success)
+
+                    if again:
+                        continue
+
+                    else:
+                        pass
+
+                    print("Para remover mais um funcionário, digite S. Senão, digite qualquer tecla para sair.")
+                    choice = input("Escolha: ").upper()
+
+                    if choice == 'S':
+                        continue
+
+                    Interface.clear()
+
+                    break
+
+    @classmethod
+    def sales(cls):
+        pass
 
     @classmethod
     def again(cls):
@@ -1267,6 +1290,26 @@ class Interface:
     @classmethod
     def linebreak(cls):
         print(" ")
+
+    @classmethod
+    def test(cls, function, success):
+        if function == True:
+            print(success)
+
+        elif function == False:
+            print("Ocorreu um erro. Tente novamente.")
+
+        else:
+            print(function)
+            Interface.linebreak()
+
+            again = Interface.again()
+
+            if again:
+                return True
+
+            else:
+                return False
 
     @classmethod
     def clear(cls):

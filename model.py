@@ -47,5 +47,6 @@ class Sales(Customer):
         self.amount = amount
 
 class Stock(Product):
-    def __init__(self, product: str):
+    def __init__(self, product: str, amount: int):
         super().__init__(product, None, None, None)
+        self.amount = amount

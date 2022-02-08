@@ -400,4 +400,54 @@ class SalesController:
             return False
 
 class StockController:
-    pass
+    @classmethod
+    def read(cls):
+        stock_items = [item for item in StockDAO.read_archive().keys()]
+        stock_info = [info for info in StockDAO.read_archive().values()]
+
+        return stock_items, Stock_info
+
+    @classmethod
+    def register(cls, product):
+        stock_items, stock_info = StockController.read()
+
+        if product in stock_items:
+            return f"O produto {product} já existe no estoque. Impossível cadastrar novamente."
+
+        try:
+            StockDao.register(Stock(product, 0))
+
+            return True
+
+        except:
+            return False
+
+    @classmethod
+    def add(cls, product, amount):
+        stock_items, stock_info = StockController.read()
+
+        if product not in stock_items:
+            return f"O produto {product} não existe. Impossível adicionar."
+
+        try:
+            StockDAO.add(Stock(product, amount))
+
+            return True
+
+        except:
+            return False
+
+    @classmethod
+    def remove(cls, product, amount):
+        stock_items, stock_info = StockController.read()
+
+        if product not in stock_items:
+            return f"O produto {product} não existe. Impossível remover."
+
+        try:
+            StockDAO.remove(Stock(product, amount))
+
+            return True
+
+        except:
+            return False

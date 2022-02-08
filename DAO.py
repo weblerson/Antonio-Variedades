@@ -8,6 +8,7 @@ CUSTOMERS = "data/customers.json"
 EMPLOYEES = "data/employees.json"
 DAILYSALES = "data/dailysales.json"
 SALES = "data/sales.json"
+STOCK = "data/stock.json"
 
 class CategoryDAO:
     @classmethod
@@ -302,4 +303,45 @@ class SalesDAO:
             sales.write(new_sales_list)
 
 class StockDAO:
-    pass
+    @classmethod
+    def read_archive(cls):
+        with open(STOCK, 'r', encoding = 'utf8') as stock:
+            stock = stock.read()
+            stock = json.loads(stock)
+
+            return stock
+
+    @classmethod
+    def register(cls, stock: Stock):
+        stock = StockDAO.read_archive()
+
+        stock.update({f"{stock.product}": {
+            "quantidade": stock.amount
+        }})
+
+        new_stock = json.dumps(stock, ensure_ascii = False)
+
+        with open(STOCK, 'w') as stock:
+            stock.write(new_stock)
+
+    @classmethod
+    def add(cls, stock: Stock):
+        stock = StockDAO.read_archive()
+
+        stock[stock.product]["quantidade"] += stock.amount
+
+        new_stock = json.dumps(stock, ensure_ascii = False)
+
+        with open(STOCK, 'w') as stock:
+            stock.write(new_stock)
+
+    @classmethod
+    def remove(cls, stock: Stock):
+        stock = StockDAO.read_archive()
+
+        stock[stock.product]["quantidade"] -= stock.amount
+
+        new_stock = json.dumps(stock, ensure_ascii = False)
+
+        with open(STOCK, 'w') as stock:
+            stock.write(new_stock)
