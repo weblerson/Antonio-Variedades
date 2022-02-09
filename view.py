@@ -1263,7 +1263,153 @@ class Interface:
 
     @classmethod
     def sales(cls):
-        pass
+        Interface.clear()
+
+        while True:
+            options = [0, 1, 2, 3, 4, 5]
+
+            print("Terminal de ações de Vendas. Selecione a opção que deseja executar.")
+            print("Digite 0 para sair a qualquer momento!")
+
+            print('''
+            Digite 1 para ver o relatório geral de vendas.
+            Digite 2 para ver o relatório de vendas por data.
+            Digite 3 para ver o relatório de produtos mais vendidos.
+            Digite 4 para ver o relatório de clientes cadastrados que mais compraram.
+            Digite 5 para ver o relatório de estoque disponível por produto.''')
+
+            Interface.linebreak()
+
+            try:
+                choice = int(input("Escolha: "))
+            except:
+                Interface.clear()
+                print("Digite um comando numérico.")
+
+                Interface.linebreak()
+
+                continue
+
+            if choice not in options:
+                Interface.clear()
+                print("Digite um comando válido.")
+
+                Interface.linebreak()
+
+                continue
+
+            if choice == 0:
+                break
+
+            elif choice == 1:
+                Interface.clear()
+                daily_sales = [sales for sales in DailySalesController.read().values()]
+
+                sales = 0
+                for sale in daily_sales:
+                    sales += sale["vendas"]
+
+                print(f"Vendas Totais: {sales}")
+
+                Interface.linebreak()
+
+                input("Digite qualquer tecla para sair.")
+
+                Interface.clear()
+
+                break
+
+            elif choice == 2:
+                Interface.clear()
+                daily_sales = DailySalesController.read()
+
+                for date in DailySalesController.read().keys():
+                    print(f"Data: {date}")
+                    print(f"Vendas: {daily_sales[date]['vendas']}")
+
+                    Interface.linebreak()
+
+                input("Digite qualquer tecla para sair.")
+
+                Interface.clear()
+
+                break
+
+            elif choice == 3:
+                Interface.clear()
+                category_list = CategoryController.read()
+
+                product_sales_list = []
+                for category in category_list:
+                    product_list = ProductController.read(category)
+
+                    for product in product_list.keys():
+                        product_sales_list.append((product, product_list[product]["vendas"]))
+
+                product_sales_list.sort(key = lambda x: x[1], reverse = True)
+
+                print("Top 3 produtos mais vendidos:")
+                Interface.linebreak()
+
+                print(f"1° lugar: {product_sales_list[0][0]} com {product_sales_list[0][1]} vendas!")
+                print(f"2° lugar: {product_sales_list[1][0]} com {product_sales_list[1][1]} vendas!")
+                print(f"3° lugar: {product_sales_list[2][0]} com {product_sales_list[2][1]} vendas!")
+
+                Interface.linebreak()
+
+                input("Digite qualquer tecla para sair.")
+
+                Interface.clear()
+
+                break
+
+            elif choice == 4:
+                Interface.clear()
+                sales = SalesController.read()
+                customer_list = [customer for customer in SalesController.read().keys()]
+
+                customer_purchases_list = []
+                for customer in sales.keys():
+                    customer_purchases_list.append((customer, sales[customer]["compras"]))
+
+                customer_purchases_list.sort(key = lambda x: x[1], reverse = True)
+
+                if len(customer_list) >= 3:
+                    print("Top 3 clientes que mais compraram:")
+                    Interface.linebreak()
+
+                    print(f"1° lugar: {customer_purchases_list[0][0]} com {customer_purchases_list[0][1]} compras!")
+                    print(f"2° lugar: {customer_purchases_list[1][0]} com {customer_purchases_list[1][1]} compras!")
+                    print(f"3° lugar: {customer_purchases_list[2][0]} com {customer_purchases_list[2][1]} compras!")
+
+                else:
+                    print("Não tem clientes cadastrados o suficiente para montar um ranking de 3 pessoas.")
+
+                Interface.linebreak()
+
+                input("Digite qualquer tecla para sair.")
+
+                Interface.clear()
+
+                break
+
+            elif choice == 5:
+                Interface.clear()
+                stock_items, stock_info = StockController.read()
+
+                index = 0
+                for product in stock_items:
+                    print(f"Produto: {product}")
+                    print(f"Quantidade no estoque: {stock_info[index]['quantidade']}")
+
+                    index += 1
+                    Interface.linebreak()
+
+                input("Digite qualquer tecla para sair.")
+
+                Interface.clear()
+
+                break
 
     @classmethod
     def again(cls):

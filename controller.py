@@ -405,7 +405,7 @@ class StockController:
         stock_items = [item for item in StockDAO.read_archive().keys()]
         stock_info = [info for info in StockDAO.read_archive().values()]
 
-        return stock_items, Stock_info
+        return stock_items, stock_info
 
     @classmethod
     def register(cls, product):
