@@ -399,10 +399,10 @@ class Interface:
                     else:
                         pass
 
-                    print("Para alterar mais uma, digite 'A', senão, digite qualquer tecla para sair.")
+                    print("Para alterar mais uma, digite 'S', senão, digite qualquer tecla para sair.")
                     choice = input("Escolha: ").upper()
 
-                    if choice == 'A':
+                    if choice == 'S':
                         continue
                     
                     Interface.clear()

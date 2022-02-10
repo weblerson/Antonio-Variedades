@@ -25,10 +25,7 @@ class CategoryDAO:
 
     @classmethod
     def change(cls, category: Category, new_category):
-        with open(os.path.join(PRODUCTS, f'{new_category}.json'), 'w') as new_category:
-            new_category.write('{}')
-
-        os.remove(os.path.join(PRODUCTS, f'{category.category}.json'))
+        os.rename(os.path.join(PRODUCTS, f'{category.category}.json'), os.path.join(PRODUCTS, f"{new_category}.json"))
 
     @classmethod
     def remove(cls, category: Category):
