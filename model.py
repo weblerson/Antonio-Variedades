@@ -46,7 +46,7 @@ class Sales(Customer):
         self.product = product
         self.amount = amount
 
-class Stock(Product):
+class Stock:
     def __init__(self, product: str, amount: int):
-        super().__init__(product, None, None, None)
+        self.product = product
         self.amount = amount

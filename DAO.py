@@ -305,43 +305,55 @@ class SalesDAO:
 class StockDAO:
     @classmethod
     def read_archive(cls):
-        with open(STOCK, 'r', encoding = 'utf8') as stock:
-            stock = stock.read()
-            stock = json.loads(stock)
+        with open(STOCK, 'r', encoding = 'utf8') as _stock:
+            stock_list = _stock.read()
+            stock_list = json.loads(stock_list)
 
-            return stock
+            return stock_list
 
     @classmethod
     def register(cls, stock: Stock):
-        stock = StockDAO.read_archive()
+        stock_list = StockDAO.read_archive()
 
-        stock.update({f"{stock.product}": {
+        stock_list.update({f"{stock.product}": {
             "quantidade": stock.amount
         }})
 
-        new_stock = json.dumps(stock, ensure_ascii = False)
+        new_stock_list = json.dumps(stock_list, ensure_ascii = False)
 
-        with open(STOCK, 'w') as stock:
-            stock.write(new_stock)
+        with open(STOCK, 'w') as _stock:
+            _stock.write(new_stock_list)
+
+        
+    @classmethod
+    def unregister(cls, stock: Stock):
+        stock_list = StockDAO.read_archive()
+
+        stock_list.pop(stock.product)
+
+        new_stock_list = json.dumps(stock_list, ensure_ascii = False)
+
+        with open(STOCK, 'w') as _stock:
+            _stock.write(new_stock_list)
 
     @classmethod
     def add(cls, stock: Stock):
-        stock = StockDAO.read_archive()
+        stock_list = StockDAO.read_archive()
 
-        stock[stock.product]["quantidade"] += stock.amount
+        stock_list[stock.product]["quantidade"] += stock.amount
 
-        new_stock = json.dumps(stock, ensure_ascii = False)
+        new_stock_list = json.dumps(stock_list, ensure_ascii = False)
 
-        with open(STOCK, 'w') as stock:
-            stock.write(new_stock)
+        with open(STOCK, 'w') as _stock:
+            _stock.write(new_stock_list)
 
     @classmethod
     def remove(cls, stock: Stock):
-        stock = StockDAO.read_archive()
+        stock_list = StockDAO.read_archive()
 
-        stock[stock.product]["quantidade"] -= stock.amount
+        stock_list[stock.product]["quantidade"] -= stock.amount
 
-        new_stock = json.dumps(stock, ensure_ascii = False)
+        new_stock_list = json.dumps(stock_list, ensure_ascii = False)
 
-        with open(STOCK, 'w') as stock:
-            stock.write(new_stock)
+        with open(STOCK, 'w') as _stock:
+            _stock.write(new_stock_list)

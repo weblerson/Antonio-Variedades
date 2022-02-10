@@ -415,7 +415,22 @@ class StockController:
             return f"O produto {product} já existe no estoque. Impossível cadastrar novamente."
 
         try:
-            StockDao.register(Stock(product, 0))
+            StockDAO.register(Stock(product, 0))
+
+            return True
+
+        except:
+            return False
+
+    @classmethod
+    def unregister(cls, product):
+        stock_items, stock_info = StockController.read()
+
+        if product not in stock_items:
+            return f"O produto {product} não existe no estoque. Impossível excluir."
+
+        try:
+            StockDAO.unregister(Stock(product, None))
 
             return True
 
@@ -443,6 +458,9 @@ class StockController:
 
         if product not in stock_items:
             return f"O produto {product} não existe. Impossível remover."
+
+        if stock_info[stock_items.index(product)]["quantidade"] < amount:
+            return f"Não é possível remover uma quantidade maior do que a do estoque."
 
         try:
             StockDAO.remove(Stock(product, amount))

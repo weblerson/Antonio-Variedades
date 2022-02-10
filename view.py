@@ -65,14 +65,14 @@ class Interface:
             choice = input("O cliente tem cadastro? (S/N): ").upper()
 
             if choice not in options:
-                os.system('clear')
+                Interface.clear()
                 print("Digite um comando válido.")
 
                 continue
 
             if choice == '0':
                 Interface.clear()
-                Interface.run()
+                break
 
             if choice == "S":
                 is_registered = True
@@ -98,11 +98,11 @@ class Interface:
 
                     nickname = input("Digite o nickname do cliente: ")
 
-                    if CustomerController.register(nickname, name, cpf, address, sex):
+                    if CustomerController.register(nickname, name, cpf, address, sex) == True:
                         print("Cliente cadastrado com sucesso!")
                         is_registered = True
 
-                    elif not CustomerController.register(nickname, name, cpf, address, sex):
+                    elif CustomerController.register(nickname, name, cpf, address, sex) == False:
                         print("Ocorreu um erro. Tente novamente.")
                         is_registered = False
 
@@ -113,11 +113,17 @@ class Interface:
                 elif choice == "N":
                     is_registered = False
 
+                Interface.clear()
+
             if is_registered:
                 nickname = input("Digite o nickname do cliente que está comprando: ")
 
+                price = 0
                 while True:
-                    print("\nDigite 0 para sair a qualquer momento.\n")
+                    Interface.clear()
+
+                    print("Digite 0 para sair a qualquer momento.")
+                    Interface.linebreak()
 
                     category = input("Digite a categoria do produto: ")
                     if category == '0':
@@ -134,46 +140,43 @@ class Interface:
                         Interface.clear()
                         break
 
+                    price += ProductController.read(category)[name]["preço"] * amount
+
                     Interface.linebreak()
 
 
-                    if ProductController.add(category, name, amount) == True:
-                        print("Vendas adicionadas com sucesso ao relatório do produto.")
+                    if StockController.remove(name, amount) == True:
+                        print("Quantidade removida com sucesso do estoque do produto!")
+
+                    elif StockController.remove(name, amount) == False:
+                        Interface.clear()
+                        print("Ocorreu um erro. Tente novamente!")
+
+                        break
+
+                    else:
+                        Interface.clear()
+                        print(StockController.remove(name, amount))
+
+                        break
+
+                    success = "Vendas adicionadas com sucesso ao relatório do produto."
+                    again = Interface.test(ProductController.add(category, name, amount), success)
+
+                    if again:
+                        continue
+
+                    else:
+                        pass
                     
-                    elif ProductController.add(category, name, amount) == False:
-                        print("Ocorreu um erro ao adicionar vendas ao relatório do produto.")
+                    success = "Vendas adicionadas com sucesso ao relatório do cliente."
+                    again = Interface.test(SalesController.add(nickname, amount, name, amount), success)
+
+                    if again:
+                        continue
 
                     else:
-                        print(ProductController.add(category, name, amount))
-
-                        again = Interface.again()
-
-                        if again:
-                            continue
-
-                        if not again:
-                            pass
-
-                    Interface.linebreak()
-
-                    if SalesController.add(nickname, amount, name, amount) == True:
-                        print("Vendas adicionadas com sucesso ao relatório do cliente.")
-
-                    elif SalesController.add(nickname, amount, name, amount) == False:
-                        print("Ocorreu um erro ao adicionar vendas ao relatório do cliente.")
-
-                    else:
-                        print(SalesController.add(nickname, amount, name, amount))
-
-                        again = Interface.again()
-
-                        if again:
-                            continue
-
-                        if not again:
-                            pass
-
-                    Interface.linebreak()
+                        pass
 
 
                     if DailySalesController.add(amount):
@@ -181,10 +184,30 @@ class Interface:
 
                     elif not DailySalesController.add(amount):
                         print("Ocorreu um erro ao adicionar vendas ao relatório diário.")
+
+                    Interface.linebreak()
+
+                    print(f"Preço total a ser pago: R$ {price}")
+
+                    Interface.linebreak()
+
+                    print("Para fazer mais uma operação, digite S. Senão, digite qualquer tecla para sair.")
+                    choice = input("Escolha: ").upper()
+
+                    if choice == 'S':
+                        continue
+
+                    Interface.clear()
+
+                    break
 
             else:
+                price = 0
                 while True:
-                    print("\nDigite 0 para sair a qualquer momento.\n")
+                    Interface.clear()
+
+                    print("Digite 0 para sair a qualquer momento.")
+                    Interface.linebreak()
 
                     category = input("Digite a categoria do produto: ")
                     if category == '0':
@@ -201,27 +224,33 @@ class Interface:
                         Interface.clear()
                         break
 
+                    price += ProductController.read(category)[name]["preço"] * amount
+
                     Interface.linebreak()
 
+                    if StockController.remove(name, amount) == True:
+                        print("Quantidade removida com sucesso do estoque do produto!")
 
-                    if ProductController.add(category, name, amount) == True:
-                        print("Vendas adicionadas com sucesso ao relatório do produto.")
-                    
-                    elif ProductController.add(category, name, amount) == False:
-                        print("Ocorreu um erro ao adicionar vendas ao relatório do produto.")
+                    elif StockController.remove(name, amount) == False:
+                        Interface.clear()
+                        print("Ocorreu um erro. Tente novamente!")
+
+                        break
 
                     else:
-                        print(ProductController.add(category, name, amount))
+                        Interface.clear()
+                        print(StockController.remove(name, amount))
 
-                        again = Interface.again()
+                        break
 
-                        if again:
-                            continue
+                    success = "Vendas adicionadas com sucesso ao relatório do produto!"
+                    again = Interface.test(ProductController.add(category, name, amount), success)
 
-                        if not again:
-                            pass
+                    if again:
+                        continue
 
-                    Interface.linebreak()
+                    else:
+                        pass
 
 
                     if DailySalesController.add(amount):
@@ -229,6 +258,22 @@ class Interface:
 
                     elif not DailySalesController.add(amount):
                         print("Ocorreu um erro ao adicionar vendas ao relatório diário.")
+
+                    Interface.linebreak()
+
+                    print(f"Preço total a ser pago: R$ {price}")
+
+                    Interface.linebreak()
+
+                    print("Para fazer mais uma operação, digite S. Senão, digite qualquer tecla para sair.")
+                    choice = input("Escolha: ").upper()
+
+                    if choice == 'S':
+                        continue
+
+                    Interface.clear()
+
+                    break
 
     @classmethod
     def category(cls):
@@ -404,7 +449,7 @@ class Interface:
         Interface.clear()
 
         while True:
-            options = [0, 1, 2, 3, 4]
+            options = [0, 1, 2, 3, 4, 5, 6]
 
             print("Terminal de ações de Produtos. Selecione a ação que deseja executar:")
             print("Digite 0 para sair a qualquer momento!")
@@ -413,7 +458,9 @@ class Interface:
             Digite 1 para fazer a leitura dos produtos.
             Digite 2 para fazer o cadastro de um produto.
             Digite 3 para fazer a alteração de um produto.
-            Digite 4 para excluir um produto.''')
+            Digite 4 para excluir um produto.
+            Digite 5 para adicionar produto no estoque.
+            Digite 6 para tirar produto do estoque.''')
 
             Interface.linebreak()
 
@@ -485,6 +532,15 @@ class Interface:
 
                     success = "Produto cadastrado com sucesso!"
                     again = Interface.test(ProductController.register(category, name, price), success)
+
+                    if again:
+                        continue
+
+                    else:
+                        pass
+
+                    success = "Produto cadastrado com sucesso no estoque!"
+                    again = Interface.test(StockController.register(name), success)
 
                     if again:
                         continue
@@ -581,7 +637,90 @@ class Interface:
                     else:
                         pass
 
+                    success = "Produto removido com sucesso do estoque!"
+                    again = Interface.test(StockController.unregister(name), success)
+
+                    if again:
+                        continue
+
+                    else:
+                        pass
+
                     choice = input("Digite S para remover outro produto. Senão, digite qualquer tecla para sair.").upper()
+                    if choice == 'S':
+                        continue
+
+                    Interface.clear()
+
+                    break
+
+            elif choice == 5:
+                while True:
+                    Interface.clear()
+
+                    print("Digite 0 para sair a qualquer momento!")
+
+                    product = input("Digite o nome do produto: ").lower()
+                    if product == '0':
+                        break
+
+                    amount = int(input("Digite a quantidade a ser adicionada ao estoque: "))
+                    if amount == 0:
+                        break
+
+                    Interface.linebreak()
+
+                    success = "Quantidade adicionada com sucesso ao estoque!"
+                    again = Interface.test(StockController.add(product, amount), success)
+
+                    Interface.linebreak()
+
+                    if again:
+                        continue
+
+                    else:
+                        pass
+
+                    print("Para adicionar mais um produto, digite S. Senão, digite qualquer tecla para sair.")
+                    choice = input("Escolha: ").upper()
+
+                    if choice == 'S':
+                        continue
+
+                    Interface.clear()
+
+                    break
+
+            elif choice == 6:
+                while True:
+                    Interface.clear()
+
+                    print("Digite 0 para sair a qualquer momento!")
+
+                    product = input("Digite o nome do produto: ").lower()
+                    if product == '0':
+                        break
+
+                    amount = int(input("Digite a quantidade a ser removida do estoque: "))
+                    if amount == 0:
+                        break
+
+                    Interface.linebreak()
+
+                    success = "Quantidade removida com sucesso do estoque estoque!"
+                    again = Interface.test(StockController.remove(product, amount), success)
+
+                    Interface.linebreak()
+
+                    if again:
+                        continue
+
+                    else:
+                        pass
+
+                    print("Para remover mais um produto, digite S. Senão, digite qualquer tecla para sair.")
+                    choice = input("Escolha: ").upper()
+
                     if choice == 'S':
                         continue
 
@@ -1348,12 +1487,16 @@ class Interface:
 
                 product_sales_list.sort(key = lambda x: x[1], reverse = True)
 
-                print("Top 3 produtos mais vendidos:")
-                Interface.linebreak()
+                if len(product_sales_list) >= 3:
+                    print("Top 3 produtos mais vendidos:")
+                    Interface.linebreak()
 
-                print(f"1° lugar: {product_sales_list[0][0]} com {product_sales_list[0][1]} vendas!")
-                print(f"2° lugar: {product_sales_list[1][0]} com {product_sales_list[1][1]} vendas!")
-                print(f"3° lugar: {product_sales_list[2][0]} com {product_sales_list[2][1]} vendas!")
+                    print(f"1° lugar: {product_sales_list[0][0]} com {product_sales_list[0][1]} vendas!")
+                    print(f"2° lugar: {product_sales_list[1][0]} com {product_sales_list[1][1]} vendas!")
+                    print(f"3° lugar: {product_sales_list[2][0]} com {product_sales_list[2][1]} vendas!")
+
+                else:
+                    print("Não existe quantidade suficiente de produtos cadastrados para montar um ranking.")
 
                 Interface.linebreak()
 
